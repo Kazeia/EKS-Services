@@ -8,12 +8,18 @@ https://docs.aws.amazon.com/eks/latest/userguide/dashboard-tutorial.html
 
 How To Run:
  - kubectl apply -f ./dashboard/dashboard.yaml
+ - kubectl apply -f ./dashboard/ingress.yaml
+ - kubectl apply -f ./dashboard/clusterrolebinding-admin.yaml
  - kubectl -n kube-system describe secret $(kubectl -n kube-system get secret | grep kubernetes-dashboard | awk '{print $1}')
-
+ - kubectl apply -f ./service/any-service.yaml --record=true
+ - // if it fails: kubectl rollout undo deployment any-service -n elk-stack
+ - // if it fails and points to revision 1: kubectl rollout undo deployment any-service --to-revision=1 -n elk-stack
+ - //check history: kubectl rollout history deployment -n elk-stack
 
 
 
 #TODO: 
+ - Jenkins commands
  - Services ECR: https://docs.aws.amazon.com/AmazonECR/latest/userguide/ECR_on_EKS.html
  ...
 
