@@ -1,0 +1,45 @@
+---
+apiVersion: v1
+kind: Service
+metadata:
+  namespace: mesias-service
+  name: mesias
+  labels:
+    app: mesias
+spec:
+  selector:
+    app: mesias
+  ports:
+    - name: mesias
+      port: 8080
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  namespace: mesias-service
+  name: mesias
+  labels:
+    app: mesias
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: mesias
+  template:
+    metadata:
+      labels:
+        app: mesias
+    spec:
+      containers:
+        - name: mesias
+          image: 846541480997.dkr.ecr.us-west-2.amazonaws.com/app/mesias/web-service:latest
+          ports:
+            - containerPort: 8080
+              name: mesias
+      # TODO: optional, dns config
+      dnsPolicy: "None"
+      dnsConfig:
+        nameservers:
+          - 10.219.64.213
+        searches:
+          - desa.ocp.sura.pe
